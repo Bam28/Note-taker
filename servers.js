@@ -4,6 +4,7 @@ const fs = require('fs');
 const notesAdded = require('./db/db.json');
 const uuid = require('./helpers/uuid');
 const { readFromFile, readAndAppend } = require('./helpers/fsUtils');
+const { request } = require('http');
 
 const PORT = 3001
 const app = express();
@@ -32,7 +33,7 @@ app.post('/api/notes', (req, res) => {
     const newNote = {
     title,
     text,
-    note_id: uuid(),
+    id: uuid(),
     };
 
 
@@ -70,8 +71,8 @@ app.post('/api/notes', (req, res) => {
   }
 });
 
-app.delete('/notes/:note_id', (req, res) => {
-
+app.delete('/notes/:id', (req, res) => {
+  delete notesAdded[req.params.id]
 })
 
 app.listen(PORT, () => {
